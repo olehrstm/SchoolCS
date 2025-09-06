@@ -1,0 +1,9 @@
+[versions]
+logback = "1.5.18"
+lombok = "1.18.40"
+
+[libraries]
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+
+[plugins]
