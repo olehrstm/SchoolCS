@@ -1,6 +1,6 @@
 package de.olehrstm.school.nim.service;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 import java.util.Optional;
 import java.util.function.Predicate;
 

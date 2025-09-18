@@ -3,15 +3,21 @@ package de.olehrstm.school.nim;
 import de.olehrstm.school.nim.service.InputService;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Insets;
+import java.awt.Toolkit;
 
 @Slf4j
 public class Application extends JFrame {
 
     public Application() {
         // Frame init
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         int frameWidth = 300;
         int frameHeight = 300;
         setSize(frameWidth, frameHeight);
