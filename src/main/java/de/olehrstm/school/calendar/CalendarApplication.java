@@ -1,6 +1,7 @@
 package de.olehrstm.school.calendar;
 
 import de.olehrstm.school.calendar.services.DateService;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -8,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,6 +20,7 @@ import java.awt.Toolkit;
 import java.util.Calendar;
 import java.util.Locale;
 
+@Slf4j
 public class CalendarApplication extends JFrame {
 
     private final JLabel monthLabel;
@@ -122,6 +125,18 @@ public class CalendarApplication extends JFrame {
     }
 
     public static void main(String[] args) {
+        String lookAndFeel = "Nimbus";
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if (lookAndFeel.equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception exception) {
+            log.error("Error setting look and feel", exception);
+        }
+
         new CalendarApplication();
     }
 }
