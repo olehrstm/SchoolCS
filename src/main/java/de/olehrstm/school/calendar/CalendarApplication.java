@@ -17,7 +17,10 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
-import java.util.Calendar;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.format.TextStyle;
 import java.util.Locale;
 
 @Slf4j
@@ -25,8 +28,8 @@ public class CalendarApplication extends JFrame {
 
     private final JLabel monthLabel;
     private final JPanel calendarPanel;
-    private final Calendar calendar;
     private final DateService dateService;
+    private YearMonth currentMonth;
 
     public CalendarApplication() {
         this.dateService = new DateService();
@@ -41,7 +44,7 @@ public class CalendarApplication extends JFrame {
         setTitle("Kalender");
         setLayout(new BorderLayout());
 
-        this.calendar = Calendar.getInstance();
+        this.currentMonth = YearMonth.now();
 
         // components
         JPanel controlPanel = new JPanel();
@@ -72,8 +75,8 @@ public class CalendarApplication extends JFrame {
     private void updateCalendar() {
         this.calendarPanel.removeAll();
 
-        String monthName = String.format(Locale.GERMAN, "%tB", this.calendar);
-        int year = this.calendar.get(Calendar.YEAR);
+        String monthName = this.currentMonth.getMonth().getDisplayName(TextStyle.FULL, Locale.GERMAN);
+        int year = this.currentMonth.getYear();
         this.monthLabel.setText(monthName + " " + year);
 
         String[] headers = { "Mo", "Di", "Mi", "Do", "Fr", "Sa", "So" };
@@ -83,25 +86,20 @@ public class CalendarApplication extends JFrame {
             this.calendarPanel.add(label);
         }
 
-        Calendar tempCal = (Calendar) this.calendar.clone();
-        tempCal.set(Calendar.DAY_OF_MONTH, 1);
-
-        int firstDayOfWeek = tempCal.get(Calendar.DAY_OF_WEEK);
-
-        int emptySlots = (firstDayOfWeek + 5) % 7;
+        LocalDate firstDayOfMonth = this.currentMonth.atDay(1);
+        DayOfWeek dayOfWeek = firstDayOfMonth.getDayOfWeek();
+        int emptySlots = dayOfWeek.getValue() - 1; // Monday is 1, so we need 0 empty slots for monday.
 
         for (int i = 0; i < emptySlots; i++) {
             this.calendarPanel.add(new JLabel(""));
         }
 
-        int daysInMonth = this.dateService.getDaysInMonth(this.calendar.get(Calendar.MONTH) + 1, year);
+        int daysInMonth = this.dateService.getDaysInMonth(this.currentMonth.getMonthValue(), year);
 
-        Calendar today = Calendar.getInstance();
+        LocalDate today = LocalDate.now();
         int currentDay = -1;
-        if (this.calendar.get(Calendar.YEAR) == today.get(Calendar.YEAR)
-            && this.calendar.get(Calendar.MONTH) == today.get(Calendar.MONTH)
-        ) {
-            currentDay = today.get(Calendar.DAY_OF_MONTH);
+        if (this.currentMonth.equals(YearMonth.from(today))) {
+            currentDay = today.getDayOfMonth();
         }
 
         for (int i = 1; i <= daysInMonth; i++) {
@@ -120,7 +118,7 @@ public class CalendarApplication extends JFrame {
     }
 
     private void changeMonth(int amount) {
-        this.calendar.add(Calendar.MONTH, amount);
+        this.currentMonth = this.currentMonth.plusMonths(amount);
         updateCalendar();
     }
 
