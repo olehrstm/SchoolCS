@@ -88,15 +88,18 @@ public class CalendarApplication extends JFrame {
         this.monthLabel.setText(monthName + " " + year);
 
         String[] headers = { "Mo", "Di", "Mi", "Do", "Fr", "Sa", "So" };
-        for (String header : headers) {
-            JLabel label = new JLabel(header, SwingConstants.CENTER);
+        for (int i = 0; i < headers.length; i++) {
+            JLabel label = new JLabel(headers[i], SwingConstants.CENTER);
             label.setFont(new Font("Arial", Font.BOLD, 12));
+            if (i > 4) { // saturday and sunday
+                label.setForeground(Color.RED);
+            }
             this.calendarPanel.add(label);
         }
 
         LocalDate firstDayOfMonth = this.currentMonth.atDay(1);
         DayOfWeek dayOfWeek = firstDayOfMonth.getDayOfWeek();
-        int emptySlots = dayOfWeek.getValue() - 1; // Monday is 1, so we need 0 empty slots for monday.
+        int emptySlots = dayOfWeek.getValue() - 1; // monday is 1, so we need 0 empty slots for monday.
 
         for (int i = 0; i < emptySlots; i++) {
             this.calendarPanel.add(new JLabel(""));
@@ -114,6 +117,17 @@ public class CalendarApplication extends JFrame {
             JLabel dayLabel = new JLabel(String.valueOf(i), SwingConstants.CENTER);
             dayLabel.setOpaque(true);
 
+            LocalDate date = this.currentMonth.atDay(i);
+            DayOfWeek dayOfWeekForCell = date.getDayOfWeek();
+
+            dayLabel.setBackground(Color.WHITE);
+
+            // weekend highlighting
+            if (dayOfWeekForCell == DayOfWeek.SATURDAY || dayOfWeekForCell == DayOfWeek.SUNDAY) {
+                dayLabel.setBackground(new Color(240, 240, 240));
+            }
+
+            // current day highlighting
             if (i == currentDay) {
                 dayLabel.setBackground(Color.LIGHT_GRAY);
                 dayLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
