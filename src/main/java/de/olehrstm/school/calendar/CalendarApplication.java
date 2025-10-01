@@ -68,6 +68,13 @@ public class CalendarApplication extends JFrame {
         this.calendarPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         add(this.calendarPanel, BorderLayout.CENTER);
 
+        JButton todayButton = new JButton("Today");
+        todayButton.addActionListener(e -> {
+            this.currentMonth = YearMonth.now();
+            updateCalendar();
+        });
+        add(todayButton, BorderLayout.SOUTH);
+
         updateCalendar();
 
         setVisible(true);
