@@ -16,6 +16,7 @@ dependencies {
     implementation(libs.logback)
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
+    implementation(libs.flatlaf)
 
     testCompileOnly(libs.lombok)
     testAnnotationProcessor(libs.lombok)

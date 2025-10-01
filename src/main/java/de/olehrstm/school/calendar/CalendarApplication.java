@@ -1,5 +1,6 @@
 package de.olehrstm.school.calendar;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import de.olehrstm.school.calendar.services.DateService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -123,14 +124,15 @@ public class CalendarApplication extends JFrame {
     }
 
     public static void main(String[] args) {
-        String lookAndFeel = "Nimbus";
         try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if (lookAndFeel.equals(info.getName())) {
+            /*for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                System.out.println(info.getName());
+                if ("Nimbus".equals(info.getName())) {
                     UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
-            }
+            }*/
+            UIManager.setLookAndFeel(new FlatLightLaf());
         } catch (Exception exception) {
             log.error("Error setting look and feel", exception);
         }

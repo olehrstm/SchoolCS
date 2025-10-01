@@ -1,9 +1,11 @@
 [versions]
 logback = "1.5.18"
 lombok = "1.18.40"
+flatlaf = "3.6.1"
 
 [libraries]
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+flatlaf = { module = "com.formdev:flatlaf", version.ref = "flatlaf" }
 
 [plugins]
