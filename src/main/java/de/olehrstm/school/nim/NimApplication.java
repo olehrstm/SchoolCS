@@ -13,9 +13,9 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 
 @Slf4j
-public class Application extends JFrame {
+public class NimApplication extends JFrame {
 
-    public Application() {
+    public NimApplication() {
         // Frame init
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         int frameWidth = 300;
@@ -47,6 +47,6 @@ public class Application extends JFrame {
     }
 
     public static void main(String[] args) {
-        new Application();
+        new NimApplication();
     }
 }
