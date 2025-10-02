@@ -9,18 +9,18 @@ public class DateService {
         return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
     }
 
+    public int getDayOfYear(int day, int month, int year) {
+        return (isLeapYear(year)
+                ? FIRST_DAYS_LEAP[month]
+                : FIRST_DAYS[month]
+        ) + day;
+    }
+
     public int getDaysInMonth(int month, int year) {
         int[] daysInMonth = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
         if (month == 2 && isLeapYear(year)) {
             return 29;
         }
         return daysInMonth[month - 1];
-    }
-
-    public int getDayOfYear(int day, int month, int year) {
-        return (isLeapYear(year)
-                ? FIRST_DAYS[month]
-                : FIRST_DAYS_LEAP[month]
-               ) + day;
     }
 }

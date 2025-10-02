@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -44,6 +45,7 @@ public class CalendarApplication extends JFrame {
         setLocation(x, y);
         setTitle("Kalender");
         setLayout(new BorderLayout());
+        setResizable(false);
 
         this.currentMonth = YearMonth.now();
 
@@ -76,6 +78,8 @@ public class CalendarApplication extends JFrame {
         add(todayButton, BorderLayout.SOUTH);
 
         updateCalendar();
+
+
 
         setVisible(true);
     }
