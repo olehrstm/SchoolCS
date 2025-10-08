@@ -13,7 +13,7 @@ public class DateService {
         return (isLeapYear(year)
                 ? FIRST_DAYS_LEAP[month]
                 : FIRST_DAYS[month]
-        ) + day;
+               ) + day;
     }
 
     public int getDaysInMonth(int month, int year) {
@@ -22,5 +22,23 @@ public class DateService {
             return 29;
         }
         return daysInMonth[month - 1];
+    }
+
+    public boolean isValidDate(int day, int month, int year) {
+        if (year < 2000 || year > 2100) {
+            return false;
+        }
+        if (month < 1 || month > 12) {
+            return false;
+        }
+        return day >= 1 && day <= getDaysInMonth(month, year);
+    }
+
+    public String getWeekDay(int day, int month, int year) {
+        int dayOfYear = getDayOfYear(day, month, year);
+
+        String[] weekdays = { "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag" };
+        int dayIndex = (dayOfYear + 5) % 7;
+        return weekdays[dayIndex];
     }
 }
