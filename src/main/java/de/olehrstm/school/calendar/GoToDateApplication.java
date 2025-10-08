@@ -1,25 +1,29 @@
 package de.olehrstm.school.calendar;
 
 import de.olehrstm.school.calendar.services.DateService;
+import de.olehrstm.school.calendar.services.InputService;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Toolkit;
 
 @Slf4j
 public class GoToDateApplication extends JFrame {
 
     private final DateService dateService;
+    private final InputService inputService;
 
-    public GoToDateApplication(DateService dateService) {
+    public GoToDateApplication(DateService dateService, InputService inputService) {
         this.dateService = dateService;
+        this.inputService = inputService;
 
         // Frame init
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -29,38 +33,40 @@ public class GoToDateApplication extends JFrame {
         int startY = (d.height - getSize().height) / 2;
         setLocation(startX, startY);
         setTitle("Kalender");
-        setLayout(new BorderLayout());
-        setResizable(false);
+        setLayout(null);
+        setResizable(true);
 
         // components
-        Byte[] days = new Byte[31];
-        for (int i = 1; i <= 31; i++) {
-            days[i - 1] = (byte) i;
-        }
-        JComboBox<Byte> dayComboBox = new JComboBox<>(days);
+        JLabel dayLabel = new JLabel("Tag");
+        dayLabel.setBounds(16, 30, 80, 24);
+        add(dayLabel);
+        JTextField dayTextField = new JTextField("1");
+        dayTextField.setBounds(16, 56, 80, 24);
+        add(dayTextField);
 
-        Byte[] months = new Byte[12];
-        for (int i = 1; i <= 12; i++) {
-            months[i - 1] = (byte) i;
-        }
-        JComboBox<Byte> monthComboBox = new JComboBox<>(months);
+        JLabel monthLabel = new JLabel("Monat");
+        monthLabel.setBounds(104, 30, 80, 24);
+        add(monthLabel);
+        JTextField monthTextField = new JTextField("1");
+        monthTextField.setBounds(104, 56, 80, 24);
+        add(monthTextField);
 
-        int startYear = 2000;
-        int endYear = 2100;
-        Integer[] years = new Integer[endYear - startYear + 1];
-        for (int i = 0; i < years.length; i++) {
-            years[i] = startYear + i;
-        }
-        JComboBox<Integer> yearComboBox = new JComboBox<>(years);
-        yearComboBox.setSelectedIndex(25); // year 2025
+        JLabel yearLabel = new JLabel("Jahr");
+        yearLabel.setBounds(192, 30, 80, 24);
+        add(yearLabel);
+        JTextField yearTextField = new JTextField("2000");
+        yearTextField.setBounds(192, 56, 80, 24);
+        add(yearTextField);
 
         JLabel resultLabel = new JLabel("Bitte wähle ein Datum aus.", SwingConstants.CENTER);
+        resultLabel.setBounds(16, 96, 256, 24);
+        add(resultLabel);
 
         JButton goButton = new JButton("Los");
         goButton.addActionListener(e -> {
-            byte day = (byte) dayComboBox.getSelectedItem();
-            byte month = (byte) monthComboBox.getSelectedItem();
-            int year = (int) yearComboBox.getSelectedItem();
+            int day = this.inputService.input(dayTextField, Integer.class).orElse(-1);
+            int month = this.inputService.input(monthTextField, Integer.class).orElse(-1);
+            int year = this.inputService.input(yearTextField, Integer.class).orElse(-1);
 
             if (!this.dateService.isValidDate(day, month, year)) {
                 resultLabel.setText("Ungültiges Datum!");
@@ -68,23 +74,16 @@ public class GoToDateApplication extends JFrame {
             }
 
             String weekDay = this.dateService.getWeekDay(day, month, year);
-            resultLabel.setText(String.format("%d.%d.%d is a %s", day, month, year, weekDay));
+            resultLabel.setText(String.format("%d.%d.%d ist ein %s", day, month, year, weekDay));
         });
-
-        JPanel inputPanel = new JPanel();
-        inputPanel.add(dayComboBox);
-        inputPanel.add(monthComboBox);
-        inputPanel.add(yearComboBox);
-
-        add(inputPanel, BorderLayout.NORTH);
-        add(goButton, BorderLayout.CENTER);
-        add(resultLabel, BorderLayout.SOUTH);
+        goButton.setBounds(56, 144, 165, 24);
+        add(goButton);
 
         setVisible(true);
     }
 
 
     public static void main(String[] args) {
-        new GoToDateApplication(new DateService());
+        new GoToDateApplication(new DateService(), new InputService());
     }
 }
