@@ -1,6 +1,6 @@
 package de.olehrstm.school.nim;
 
-import de.olehrstm.school.nim.service.InputService;
+import de.olehrstm.school.nim.service.NimInputService;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.JButton;
@@ -37,7 +37,7 @@ public class NimApplication extends JFrame {
         startButton.setText("Start");
         startButton.setMargin(new Insets(2, 2, 2, 2));
         startButton.addActionListener(event -> {
-            NimGame nimGame = new NimGame(new InputService());
+            NimGame nimGame = new NimGame(new NimInputService());
             nimGame.init();
         });
         startButton.setBackground(Color.GREEN);
