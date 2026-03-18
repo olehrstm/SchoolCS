@@ -3,6 +3,7 @@ package de.olehrstm.school;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
@@ -41,10 +42,13 @@ final class InterfaceFactory {
 
     JTextArea addTextArea(int x, int y, int width, int height) {
         JTextArea textArea = new JTextArea();
-        textArea.setBounds(x, y, width, height);
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
-        this.targetFrame.add(textArea);
+        
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setBounds(x, y, width, height);
+        this.targetFrame.add(scrollPane);
+        
         return textArea;
     }
 
@@ -60,6 +64,13 @@ final class InterfaceFactory {
         textField.setEditable(false);
         textField.setFocusable(false);
         return textField;
+    }
+
+    JTextArea addOutputArea(int x, int y, int width, int height) {
+        JTextArea textArea = addTextArea(x, y, width, height);
+        textArea.setEditable(false);
+        textArea.setFocusable(false);
+        return textArea;
     }
 
     JButton addButton(String text, int x, int y, int width, int height, ActionListener listener) {
